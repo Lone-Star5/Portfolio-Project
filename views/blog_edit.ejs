@@ -1,24 +1,24 @@
 <head>
     <meta charset="utf-8">
     <title>New Blog</title>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css"> 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
 </head>
 
 <body>
     <div style="position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);">
-    <div class="ui main text container segment">
-        <div class="ui huge header">New Blog</div>
-        <form class="ui form" action="/newblog" method="post">
-            <div class="field">
-                <label>Title</label>
-                <input type="text" name="blog[title]" placeholder="Title">
-            </div>
-            <div class="field">
-                <label>Blog Content</label>
-                <textarea name="blog[body]" placeholder="Your Blog"></textarea>
-            </div>
-            <input class="ui primary basic button" type="submit">
-        </form>
-    </div>
+        <div class="ui main text container segment">
+            <div class="ui huge header">Edit <i>'<%=blog.title%>'</i></div>
+            <form class="ui form" action="./<%=blog._id%>?_method=PUT" method="post">
+                <div class="field">
+                    <label>Title</label>
+                    <input type="text" name="blog[title]" value="<%=blog.title%>">
+                </div>
+                <div class="field">
+                    <label>Blog Content</label>
+                    <textarea name="blog[body]"><%=blog.body%></textarea>
+                </div>
+                <input class="ui primary basic button" type="submit">
+            </form>
+        </div>
     </div>
 </body>
