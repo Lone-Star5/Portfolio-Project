@@ -22,7 +22,7 @@
                         <div class="header">
                             <h2 style="text-align:center;"><%=blog.title%></h2>
                         </div>
-                        <div class="description"><p><%=blog.body.substring(0,100)%>...</p></div>
+                        <div class="description"><p><%=blog.body.substring(0,blog.body.length*0.4)%>...</p></div>
                             <div class="extra">
                                 <a class="ui button" href="/blog/<%= blog._id %>">Read More<i
                                         class="angle right icon"></i></a>
