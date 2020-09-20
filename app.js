@@ -40,7 +40,7 @@ app.post('/newblog',(req,res)=>{
 		if(err)
 			res.render('create_blog');
 		else
-			res.redirect('/blog');
+			res.redirect('/login/success');
 	});
 });
 
@@ -66,7 +66,29 @@ app.get('/blog/:id',(req,res)=>{
 	});
 });
 
-app.get('/blog')
+app.get('/login/success/edit/:id',(req,res)=>{
+	blog.findById(req.params.id,(err,foundBlog)=>{
+		if(err)
+			console.log(err);
+		else
+			res.render('blog_edit',{blog:foundBlog});
+	});
+});
+
+app.post('/login/success/edit/:id',(req,res)=>{
+	blog.findByIdAndUpdate(req.params.id,req.body.blog,(err,updatedBlog)=>{
+		if(err)
+			res.redirect('/login/success');
+		else
+			res.redirect('/login/success');
+	})
+});
+
+app.post('/login/success/delete/:id',(req,res)=>{
+	blog.findByIdAndRemove(req.params.id,(err)=>{
+		res.redirect('/login/success');
+	})
+});
 
 app.listen(8000, ()=>{
 	console.log('Server Running at port 8000...');
