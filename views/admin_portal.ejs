@@ -10,7 +10,7 @@
         <div class="item ui small header">Sample branding</i></div>
         <div class="item ui medium header"><a href="/newblog">Create blog</a></div>
         <div class="right menu">
-            <div class="item ui medium header"><a href="/login">Administrator Login</a></div>
+            <div class="item ui medium header"><a href="/logout">Logout</a></div>
         </div>
     </div>
     <div style="margin-top:8%">
@@ -23,10 +23,12 @@
                         <div class="header">
                             <h2 style="text-align:center;"><%=blog.title%></h2>
                         </div>
-                        <div class="description"><p><%=blog.body.substring(0,100)%>...</p></div>
+                        <div class="description"><p><%=blog.body.substring(0,blog.body.length*0.4)%>...</p></div>
                             <div class="extra">
-                                <a class="ui button positive" href="./edit/<%=blog._id%>">Edit Blog<i class="angle right icon"></i></a>
-                                <a class="ui button negative" href="">Delete Blog     <i class="close icon"></i></a>
+                                <form class="ui form" action="/login/success/delete/<%=blog._id%>?_method=delete" method="post">
+                                    <a class="ui button positive" href="./success/edit/<%=blog._id%>">Edit Blog<i class="angle right icon"></i></a>
+                                    <button class="ui red button">Delete Blog</button>
+                                </form>
                             </div>
                     </div>  
                 </div>
