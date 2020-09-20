@@ -1,0 +1,29 @@
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css"> 
+</head>
+<body>
+    <div class="ui inverted top fixed menu">
+        <div class="item ui small header">Sample Branding</div>
+        <div class="right menu">
+            <div class="item active ui medium header"><a href="/login">Administrator Login</a></div>
+        </div>
+    </div>
+    <div style="  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <div class="ui raised very padded text container segment">
+        <p style="text-align: center" class="ui huge header">Login with Administrator Credentials</p>
+        <form class="ui form" method="post" action="/login">
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Password">
+            </div>
+            <button style="margin-left:42.5%"class="ui primary button" type="submit">Submit</button>
+        </form>
+    </div>
+    </div>
+</body>
