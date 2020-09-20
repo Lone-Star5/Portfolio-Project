@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -12,4 +12,8 @@ app.get('/', (req,res)=>{
 
 app.listen(8000, ()=>{
 	console.log('Server Running at port 8000...')
+})
+
+app.get('/blog',(req,res)=>{
+	res.render('blog_index');
 })
