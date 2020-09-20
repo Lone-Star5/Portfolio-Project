@@ -48,6 +48,15 @@ app.get('/login',(req,res)=>{
 	res.render('blog_login');
 });
 
+app.get('/login/success',(req,res)=>{
+	blog.find({},(err,blogs)=>{
+		if(err)
+			console.log(err);
+		else
+			res.render('admin_portal',{blogs:blogs});
+	})
+});
+
 app.get('/blog/:id',(req,res)=>{
 	blog.findById(req.params.id,(err,foundBlog)=>{
 		if(err)
@@ -56,6 +65,8 @@ app.get('/blog/:id',(req,res)=>{
 			res.render('blog_detail',{blog:foundBlog});
 	});
 });
+
+app.get('/blog')
 
 app.listen(8000, ()=>{
 	console.log('Server Running at port 8000...');
