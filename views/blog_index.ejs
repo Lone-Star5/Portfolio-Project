@@ -1,7 +1,7 @@
 <head>
     <meta charset="utf-8">
     <title>My Blogs</title>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css"> 
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
 </head>
 
 <body>
@@ -11,6 +11,28 @@
         <div class="right menu">
             <div class="item ui medium header"><a href="/login">Administrator Login</a></div>
         </div>
+    </div>
+    <div style="margin-top:8%">
+        <div class="ui huge header">My entries</div>
+        <div class="ui top attached segment">
+            <div class="ui divided items">
+                <%blogs.forEach(function(blog){%>
+                <div id="blogdet" class="item">
+                    <div class="content">
+                        <div class="header">
+                            <h2 style="text-align:center;"><%=blog.title%></h2>
+                        </div>
+                        <div class="description"><p><%=blog.body.substring(0,100)%>...</p></div>
+                            <div class="extra">
+                                <a class="ui button" href="/blog/<%= blog._id %>">Read More<i
+                                        class="angle right icon"></i></a>
+                            </div>
+                    </div>
+                </div>
+                <%});%>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
