@@ -14,6 +14,7 @@ var blogSchema=new mongoose.Schema({
 	body:String,
 	created:{type:Date,default:Date.now}
 });
+
 var blog=new mongoose.model('blog',blogSchema);
 
 
