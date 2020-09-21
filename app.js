@@ -5,7 +5,9 @@ const mongoose=require('mongoose');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
 const passportLocalMongoose = require("passport-local-mongoose");
-
+const fs = require('fs'); 
+const path = require('path'); 
+const multer = require('multer')
 
 var username='admin';
 var password='admin';
@@ -29,8 +31,22 @@ var UserSchema= new mongoose.Schema({
 });
 UserSchema.plugin(passportLocalMongoose);
 
+
+var articleSchema = new mongoose.Schema({ 
+    title: String, 
+    keywords: String, 
+    img: 
+    { 
+        data: Buffer, 
+        contentType: String 
+    } 
+}); 
+  
+
 var blog=new mongoose.model('blog',blogSchema);
 var User=new mongoose.model('user',UserSchema);
+var articles=new mongoose.model('article',articleSchema);
+
 
 app.use(require("express-session")({
     secret:'Random',
@@ -57,6 +73,8 @@ User.findOne({username:username},function(err,user){
         console.log('Administrator registered');
     }
 });
+
+
 
 app.get('/', (req,res)=>{
 	res.render('index');
@@ -140,7 +158,59 @@ app.post('/login/success/delete/:id',isLoggedIn,(req,res)=>{
 	})
 });
 
-app.listen(8000, ()=>{
+
+
+
+
+// View Articles
+
+var storage = multer.diskStorage({ 
+    destination: (req, file, cb) => { 
+        cb(null, 'uploads') 
+    }, 
+    filename: (req, file, cb) => { 
+        cb(null, file.fieldname + '-' + Date.now()) 
+    } 
+}); 
+  
+const upload = multer({ storage: storage }); 
+
+app.get('/articles',(req,res)=>{
+	let user = false;
+	if(req.isAuthenticated())
+		user=true;
+	articles.find({},(err,articles)=>{
+		if(err)
+			console.log(err);
+		else
+			res.render('articles',{articles:articles,user:user});
+	})	
+
+})
+
+app.post('/articles',upload.single('img'), (req,res)=>{
+	const obj = { 
+		title: req.body.title, 
+		keywords: req.body.keywords, 
+		img: { 
+			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+			contentType: 'image/png'
+		} 
+	} 
+	articles.create(obj,(err,newArticle)=>{
+		if(err)
+			res.redirect('/articles');
+		else
+			res.redirect('/articles');
+	});
+})
+
+
+
+
+app.listen(8000, (err)=>{
+	if(err)
+		throw err;
 	console.log('Server Running at port 8000...');
 });
 
@@ -149,3 +219,4 @@ function isLoggedIn(req,res,next){
         return next();
     res.render('blog_login');
 }
+
