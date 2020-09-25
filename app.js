@@ -12,8 +12,9 @@ const multer = require('multer')
 var username='admin';
 var password='admin';
 
+app.use(express.static(__dirname + '/public/'));
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -180,6 +181,7 @@ app.get('/articles',(req,res)=>{
 	if(req.isAuthenticated())
 		user=true;
 	articles.find({},(err,articles)=>{
+		console.log(articles);
 		if(err)
 			console.log(err);
 		else

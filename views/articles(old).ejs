@@ -1,0 +1,92 @@
+<head>
+	<meta charset="utf-8">
+	<title>My Blogs</title>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
+
+	<style>
+		body {
+		  padding-top: 38px;
+		}
+		img{
+			height:300px;
+			width:300px;
+		}
+		img:hover{
+			display:absolute;
+			height:300vh;
+			width:90vw;
+			text-align:center;
+			z-index:1000;
+		}
+		body{
+
+		}
+		.heading{
+			text-align: center;
+			font-size: 80px;
+			padding:30px auto;
+			
+		}
+	
+	</style>
+</head>
+
+<body>
+	<div class="ui inverted top fixed menu">
+		<div class="item ui small header">Sample branding</i></div>
+		<div class="right menu">
+			<div class="item ui medium header"><a href="/blog">Read blogs</a></div>
+		</div>
+	</div>
+
+	<% if(user) { %>
+		<div class = "mt-3 mb-5 w-50 mx-auto shadow-lg p-3 mb-5 bg-white rounded">
+			<h1> Upload Article </h1>
+			<form method="post" action='/articles' enctype="multipart/form-data">
+				<div class = "form-group">
+					<label> Title </label>
+					<input name="title" class = "w-75 form-control" type = "text">
+				</div>
+				<div class = "form-group">
+					<label> Keywords </label>
+					<input name="keywords" class = "w-75 form-control" type = "text">
+				</div>
+				<div class = "form-group">
+					<label> Upload Article </label>
+					<input name="img" class = "form-control-file" type = "file">
+				</div>
+				<div>
+					<input class="btn btn-primary" type = "submit">
+				</div>
+			
+		</div>
+	<% }%>
+
+		<h1 class = "heading"> My Articles </h1>
+	<div class = "container">
+		<div class = "row">
+			<% articles.forEach(function(article) { %> 
+				<div class = "col-12 col-md-6 mb-5">
+					<div style="text-align:center;" class = "image">
+						<img src="data:image/<%=article.img.contentType%>;base64, 
+                     <%=article.img.data.toString('base64')%>"> 
+					</div>
+					<div style="text-align:center;" class = "w-50 py-2 mx-auto border border-dark title">
+						<h3><%= article.title %></h3>
+					</div>
+				</div>
+			<% }) %>
+		</div>
+	</div>
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
