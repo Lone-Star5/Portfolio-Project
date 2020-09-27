@@ -78,7 +78,7 @@ User.findOne({username:username},function(err,user){
 
 
 app.get('/', (req,res)=>{
-	res.render('index');
+	res.render('home');
 });
 
 app.get('/blog',(req,res)=>{
@@ -162,6 +162,11 @@ app.post('/login/success/delete/:id',isLoggedIn,(req,res)=>{
 
 
 
+app.get('/awards', (req,res)=>{
+	res.render('awards');
+})
+
+
 
 // View Articles
 
@@ -185,7 +190,34 @@ app.get('/articles',(req,res)=>{
 		if(err)
 			console.log(err);
 		else
-			res.render('articles',{articles:articles,user:user});
+			res.render('articles/articles',{articles:articles,user:user});
+	})	
+})
+
+app.get('/articles/political',(req,res)=>{
+	let user = false;
+	if(req.isAuthenticated())
+		user=true;
+	articles.find({},(err,articles)=>{
+		console.log(articles);
+		if(err)
+			console.log(err);
+		else
+			res.render('articles/political',{articles:articles,user:user});
+	})	
+
+})
+
+app.get('/articles/entertainment',(req,res)=>{
+	let user = false;
+	if(req.isAuthenticated())
+		user=true;
+	articles.find({},(err,articles)=>{
+		console.log(articles);
+		if(err)
+			console.log(err);
+		else
+			res.render('articles/entertainment',{articles:articles,user:user});
 	})	
 
 })
