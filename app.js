@@ -118,8 +118,8 @@ app.get('/login/success',isLoggedIn,(req,res)=>{
 });
 
 app.get('/logout',function(req,res){
-    req.logout();
-    res.redirect('/login');
+	req.logout();
+	res.redirect("/");
 });
 
 app.get('/blog/:id',(req,res)=>{
