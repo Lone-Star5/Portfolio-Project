@@ -40,7 +40,13 @@
           <li><a href="/articles">Home</a></li>
           <li class="active"><a href="#">Political News</a></li>
           <li><a href="/articles/entertainment">Entertainment News</a></li>
-          <li><a href="/login">Admin Login</a></li>
+          <li><a href="<%=user ? '../logout' : '../login' %>">
+            <% if (user) { %>
+              Logout
+              <%} else { %>
+              Admin Login
+              <% } %>
+          </a></li>
         </ul>
       </nav><!-- .nav-menu -->
     </div>
