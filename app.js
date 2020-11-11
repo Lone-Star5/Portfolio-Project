@@ -8,6 +8,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const fs = require('fs'); 
 const path = require('path'); 
 const multer = require('multer')
+var filename=Date.now()+'.png';
 
 var username='admin';
 var password='admin';
@@ -35,12 +36,7 @@ UserSchema.plugin(passportLocalMongoose);
 
 var articleSchema = new mongoose.Schema({ 
     title: String, 
-    keywords: String, 
-    img: 
-    { 
-        data: Buffer, 
-        contentType: String 
-    } 
+    keywords: String
 }); 
   
 
@@ -170,15 +166,25 @@ app.get('/awards', (req,res)=>{
 
 // View Articles
 
-var storage = multer.diskStorage({ 
-    destination: (req, file, cb) => { 
-        cb(null, 'uploads') 
-    }, 
-    filename: (req, file, cb) => { 
-        cb(null, file.fieldname + '-' + Date.now()) 
-    } 
-}); 
-  
+// var storage = multer.diskStorage({ 
+//     destination: (req, file, cb) => { 
+//         cb(null, 'uploads') 
+//     }, 
+//     filename: (req, file, cb) => { 
+//         cb(null, file.fieldname + '-' + Date.now()) 
+//     } 
+// }); 
+
+var storage=multer.diskStorage({
+    destination: function(req,file,cb){
+        var path='./public/uploads/'
+        cb(null,path);
+    },
+    filename: function(req,file,cb){
+        cb(null,filename);
+    }
+});
+
 const upload = multer({ storage: storage }); 
 
 app.get('/articles',(req,res)=>{
@@ -222,21 +228,34 @@ app.get('/articles/entertainment',(req,res)=>{
 
 })
 
-app.post('/articles',upload.single('img'), (req,res)=>{
-	const obj = { 
-		title: req.body.title, 
-		keywords: req.body.keywords, 
-		img: { 
-			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-			contentType: 'image/png'
-		} 
-	} 
-	articles.create(obj,(err,newArticle)=>{
+app.post('/articles',upload.single('article[img]'), (req,res)=>{
+	// const obj = { 
+	// 	title: req.body.title, 
+	// 	keywords: req.body.keywords, 
+	// 	img: { 
+	// 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+	// 		contentType: 'image/png'
+	// 	} 
+	// } 
+	articles.create(req.body.article,function(err,newArticle){
+		var id=newArticle._id.toString();
+		var oldPath=path.join(__dirname,'/public/uploads/',filename);
+		var newPath=path.join(__dirname,'/public/uploads/',id+'.png');
+		fs.rename(oldPath,newPath,function(err){
+			if(err)
+				console.log(err);
+		});
 		if(err)
-			res.redirect('/articles');
+			console.log(err);
 		else
 			res.redirect('/articles');
 	});
+	// articles.create(obj,(err,newArticle)=>{
+	// 	if(err)
+	// 		res.redirect('/articles');
+	// 	else
+	// 		res.redirect('/articles');
+	// });
 })
 
 
