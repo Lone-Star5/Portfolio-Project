@@ -39,7 +39,13 @@
           <li><a href="/articles">Home</a></li>
           <li><a href="/articles/political">Political News</a></li>
           <li class="active"><a href="#">Entertainment News</a></li>
-          <li><a href="/login">Admin Login</a></li>
+          <li><a href="<%=user ? '../logout' : '../login' %>">
+            <% if (user) { %>
+              Logout
+              <%} else { %>
+              Admin Login
+              <% } %>
+          </a></li>
         </ul>
       </nav><!-- .nav-menu -->
 
