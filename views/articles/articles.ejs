@@ -29,6 +29,12 @@
 <body>
 
   <!-- ======= Header ======= -->
+  var link= <% if (user) { %>
+    "/logout"
+    <%} else { %>
+    "/login"
+    <% } %>
+
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
@@ -39,6 +45,13 @@
           <li class="active"><a href="#">Home</a></li>
           <li><a href="articles/political">Political News</a></li>
           <li><a href="articles/entertainment">Entertainment News</a></li>
+          <li><a href="<%=user ? 'logout' : 'login' %>">
+            <% if (user) { %>
+              Logout
+              <%} else { %>
+              Admin Login
+              <% } %>
+          </a></li>
         </ul>
       </nav><!-- .nav-menu -->
 
