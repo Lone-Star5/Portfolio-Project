@@ -39,6 +39,13 @@
           <li class="active"><a href="#">Home</a></li>
           <li><a href="articles/political">Political News</a></li>
           <li><a href="articles/entertainment">Entertainment News</a></li>
+          <li><a href="<%=user ? 'logout' : 'login' %>">
+            <% if (user) { %>
+              Logout
+              <%} else { %>
+              Admin Login
+              <% } %>
+          </a></li>
         </ul>
       </nav><!-- .nav-menu -->
 
@@ -52,15 +59,18 @@
       <form method="post" action='/articles' enctype="multipart/form-data">
         <div class = "form-group">
           <label> Title </label>
-          <input name="title" class = "w-75 form-control" type = "text">
+          <input name="article[title]" class = "w-75 form-control" type = "text">
         </div>
         <div class = "form-group">
           <label> Keywords </label>
-          <input name="keywords" class = "w-75 form-control" type = "text">
+          <select type="text" name="article[keywords]" class="w-75 form-control">
+            <option value="Political">Political</option>
+            <option value="Entertainment">Entertainment</option>
+        </select>
         </div>
         <div class = "form-group">
           <label> Upload Article </label>
-          <input name="img" class = "form-control-file" type = "file">
+          <input name="article[img]" class = "form-control-file" type = "file">
         </div>
         <div>
           <input class="btn btn-primary" type = "submit">
@@ -195,11 +205,9 @@
         </div>
 
         <div class="owl-carousel recent-articles-carousel">
-          <% articles.forEach(function(article) { %>
-          <a href="" class="venobox" data-src="data:image/<%=article.img.contentType%>;base64,<%=article.img.data.toString('base64')%>" data-gall="recent-articles-carousel">
-
-            <img src="data:image/<%=article.img.contentType%>;base64,<%=article.img.data.toString('base64')%>" alt=""></a>
-        <% }) %>
+          <%articles.forEach(function(article){%>
+            <img src="/uploads/<%=article._id%>.png">
+          <%});%>
         </div>
 
       </div>

@@ -1,17 +1,46 @@
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel='icon' href="https://img.icons8.com/bubbles/2x/about-me-female.png">
 </head>
 
 <body>
     <!-- List all blogs using Semantic-UI under this page -->
-    <div class="ui inverted top fixed menu">
+    <!-- <div class="ui inverted top fixed menu">
         <div class="item ui small header">Sample branding</i></div>
         <div class="right menu">
             <div class="item ui medium header"><a href="/login">Administrator Login</a></div>
         </div>
-    </div>
+    </div> -->
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <a href="home" class="nav__logo">Sunita Kapoor</a>
+            </div>
+    
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="../" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link active">Blog</a></li>
+                    <li class = "nav__item"><a href="<%=user ? '/login/success' : '/login'%>" class="nav__link">
+                        <% if (user) { %>
+                            Admin Portal
+                            <%} else { %>
+                            Admin Login
+                        <% } %>
+                    </a></li>
+                </ul>
+            </div>
+    
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+        </nav>
+    </header>
     <div style="margin-top:8%">
         <div class="ui huge header" style="text-align: center;">My blogs</div>
         <div class="ui raised very padded text container segment">

@@ -2,20 +2,36 @@
     <title><%=blog.title%></title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel='icon' href="https://img.icons8.com/bubbles/2x/about-me-female.png">
 </head>
 
 <body>
-    <div class="ui inverted top fixed menu">
-        <div class="item ui small header">Sample branding</i></div>
-        <div class="right menu">
-            <div class="item ui medium header"><a href="/login">Administrator Login</a></div>
-        </div>
-    </div>
+    <header class="l-header">
+        <nav class="nav bd-grid">
+            <div>
+                <a href="home" class="nav__logo">Sunita Kapoor</a>
+            </div>
+    
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="../" class="nav__link">Home</a></li>
+                    <li class="nav__item"><a href="/blog" class="nav__link">Blog</a></li>
+                    <li class = "nav__item"><a href="/login" class="nav__link">Admin Login</a></li>
+                </ul>
+            </div>
+    
+            <div class="nav__toggle" id="nav-toggle">
+                <i class='bx bx-menu'></i>
+            </div>
+        </nav>
+    </header>
     <h1 style="text-align: center; padding-top: 4%;"><%=blog.title%></h1>
     <div class="ui raised very padded text container segment">
         <p><%=blog.body%></p>
         <h4>Written on: <%=blog.created.toDateString()%></h4>
-        <h4>Author: $Author Name</h4>
+        <h4>Author: Sunita Kapoor</h4>
     </div>
 
 </body>

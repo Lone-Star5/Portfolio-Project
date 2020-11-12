@@ -8,6 +8,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const fs = require('fs'); 
 const path = require('path'); 
 const multer = require('multer')
+var filename=Date.now()+'.png';
 
 var username='admin';
 var password='admin';
@@ -35,12 +36,7 @@ UserSchema.plugin(passportLocalMongoose);
 
 var articleSchema = new mongoose.Schema({ 
     title: String, 
-    keywords: String, 
-    img: 
-    { 
-        data: Buffer, 
-        contentType: String 
-    } 
+    keywords: String
 }); 
   
 
@@ -82,11 +78,14 @@ app.get('/', (req,res)=>{
 });
 
 app.get('/blog',(req,res)=>{
+	let user=false;
+	if(req.isAuthenticated)
+		user=true;
 	blog.find({},(err,blogs)=>{
 		if(err)
 			console.log(err);
 		else
-			res.render('blog_index',{blogs:blogs});
+			res.render('blog_index',{blogs:blogs,user:user});
 	})
 });
 
@@ -122,8 +121,8 @@ app.get('/login/success',isLoggedIn,(req,res)=>{
 });
 
 app.get('/logout',function(req,res){
-    req.logout();
-    res.redirect('/login');
+	req.logout();
+	res.redirect("/");
 });
 
 app.get('/blog/:id',(req,res)=>{
@@ -170,15 +169,25 @@ app.get('/awards', (req,res)=>{
 
 // View Articles
 
-var storage = multer.diskStorage({ 
-    destination: (req, file, cb) => { 
-        cb(null, 'uploads') 
-    }, 
-    filename: (req, file, cb) => { 
-        cb(null, file.fieldname + '-' + Date.now()) 
-    } 
-}); 
-  
+// var storage = multer.diskStorage({ 
+//     destination: (req, file, cb) => { 
+//         cb(null, 'uploads') 
+//     }, 
+//     filename: (req, file, cb) => { 
+//         cb(null, file.fieldname + '-' + Date.now()) 
+//     } 
+// }); 
+
+var storage=multer.diskStorage({
+    destination: function(req,file,cb){
+        var path='./public/uploads/'
+        cb(null,path);
+    },
+    filename: function(req,file,cb){
+        cb(null,filename);
+    }
+});
+
 const upload = multer({ storage: storage }); 
 
 app.get('/articles',(req,res)=>{
@@ -198,7 +207,7 @@ app.get('/articles/political',(req,res)=>{
 	let user = false;
 	if(req.isAuthenticated())
 		user=true;
-	articles.find({keywords:"political"},(err,articles)=>{
+	articles.find({keywords:'Political'},(err,articles)=>{
 		console.log(articles);
 		if(err)
 			console.log(err);
@@ -212,7 +221,7 @@ app.get('/articles/entertainment',(req,res)=>{
 	let user = false;
 	if(req.isAuthenticated())
 		user=true;
-	articles.find({},(err,articles)=>{
+	articles.find({keywords:'Entertainment'},(err,articles)=>{
 		console.log(articles);
 		if(err)
 			console.log(err);
@@ -222,22 +231,44 @@ app.get('/articles/entertainment',(req,res)=>{
 
 })
 
-app.post('/articles',upload.single('img'), (req,res)=>{
-	const obj = { 
-		title: req.body.title, 
-		keywords: req.body.keywords, 
-		img: { 
-			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-			contentType: 'image/png'
-		} 
-	} 
-	articles.create(obj,(err,newArticle)=>{
+app.post('/articles',upload.single('article[img]'), (req,res)=>{
+	// const obj = { 
+	// 	title: req.body.title, 
+	// 	keywords: req.body.keywords, 
+	// 	img: { 
+	// 		data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+	// 		contentType: 'image/png'
+	// 	} 
+	// } 
+	articles.create(req.body.article,function(err,newArticle){
+		var id=newArticle._id.toString();
+		var oldPath=path.join(__dirname,'/public/uploads/',filename);
+		var newPath=path.join(__dirname,'/public/uploads/',id+'.png');
+		fs.rename(oldPath,newPath,function(err){
+			if(err)
+				console.log(err);
+		});
 		if(err)
-			res.redirect('/articles');
+			console.log(err);
 		else
 			res.redirect('/articles');
 	});
+	// articles.create(obj,(err,newArticle)=>{
+	// 	if(err)
+	// 		res.redirect('/articles');
+	// 	else
+	// 		res.redirect('/articles');
+	// });
 })
+
+app.get('/resume', function (req, res) {
+	var filePath = "/public/resume.pdf";
+
+	fs.readFile(__dirname + filePath , function (err,data){
+			res.contentType("application/pdf");
+			res.send(data);
+	});
+});
 
 
 
