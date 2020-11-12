@@ -78,11 +78,14 @@ app.get('/', (req,res)=>{
 });
 
 app.get('/blog',(req,res)=>{
+	let user=false;
+	if(req.isAuthenticated)
+		user=true;
 	blog.find({},(err,blogs)=>{
 		if(err)
 			console.log(err);
 		else
-			res.render('blog_index',{blogs:blogs});
+			res.render('blog_index',{blogs:blogs,user:user});
 	})
 });
 
@@ -204,7 +207,7 @@ app.get('/articles/political',(req,res)=>{
 	let user = false;
 	if(req.isAuthenticated())
 		user=true;
-	articles.find({},(err,articles)=>{
+	articles.find({keywords:'Political'},(err,articles)=>{
 		console.log(articles);
 		if(err)
 			console.log(err);
@@ -218,7 +221,7 @@ app.get('/articles/entertainment',(req,res)=>{
 	let user = false;
 	if(req.isAuthenticated())
 		user=true;
-	articles.find({},(err,articles)=>{
+	articles.find({keywords:'Entertainment'},(err,articles)=>{
 		console.log(articles);
 		if(err)
 			console.log(err);
