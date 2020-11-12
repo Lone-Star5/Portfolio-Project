@@ -57,15 +57,11 @@
     <!-- ======= entertainment section Section ======= -->
     <section class="lightbox">
       <div class="row">
-        <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-          <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
-        </a>
-        <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-          <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
-        </a>
-        <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
-          <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
-        </a>
+        <% articles.forEach(function(article){ %>
+          <a href="/uploads/<%=article._id%>.png" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+              <img src="/uploads/<%=article._id%>.png" class="img-fluid rounded">
+          </a> 
+        <% }); %>
       </div>
 
     </section><!-- End entertainment section Section -->
@@ -80,14 +76,6 @@
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
             consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in
             iste officiis commodi quidem hic quas.</p>
-        </div>
-    
-        <div class="owl-carousel recent-articles-carousel">
-          <% articles.forEach(function(article) { %>
-          <a href="" class="venobox" data-src="data:image/<%=article.img.contentType%>;base64,<%=article.img.data.toString('base64')%>" data-gall="recent-articles-carousel">
-
-            <img src="data:image/<%=article.img.contentType%>;base64,<%=article.img.data.toString('base64')%>" alt=""></a>
-        <% }) %>
         </div>
     
       </div>
