@@ -198,7 +198,7 @@ app.get('/articles/political',(req,res)=>{
 	let user = false;
 	if(req.isAuthenticated())
 		user=true;
-	articles.find({},(err,articles)=>{
+	articles.find({keywords:"political"},(err,articles)=>{
 		console.log(articles);
 		if(err)
 			console.log(err);
@@ -241,6 +241,10 @@ app.post('/articles',upload.single('img'), (req,res)=>{
 
 
 
+
+app.get('/socialMedia', (req,res)=>{
+	res.render('social_media')
+})
 
 app.listen(8000, (err)=>{
 	if(err)
