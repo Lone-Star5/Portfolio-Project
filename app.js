@@ -261,6 +261,15 @@ app.post('/articles',upload.single('article[img]'), (req,res)=>{
 	// });
 })
 
+app.get('/resume', function (req, res) {
+	var filePath = "/public/resume.pdf";
+
+	fs.readFile(__dirname + filePath , function (err,data){
+			res.contentType("application/pdf");
+			res.send(data);
+	});
+});
+
 
 
 
