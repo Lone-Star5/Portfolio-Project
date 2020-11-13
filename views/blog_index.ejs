@@ -19,17 +19,17 @@
     <header class="l-header">
         <nav class="nav bd-grid">
             <div>
-                <a href="home" class="nav__logo">Sunita Kapoor</a>
+                <a href="/" class="nav__logo">Sunita Kapoor</a>
             </div>
     
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item"><a href="../" class="nav__link">Home</a></li>
                     <li class="nav__item"><a href="#" class="nav__link active">Blog</a></li>
-                    <li class = "nav__item"><a href="<%=user ? '/login/success' : '/login'%>" class="nav__link">
+                    <li class = "nav__item"><a href="<%=user ? '/login/success' : '/login' %>" class="nav__link">
                         <% if (user) { %>
                             Admin Portal
-                            <%} else { %>
+                        <%} else { %>
                             Admin Login
                         <% } %>
                     </a></li>
