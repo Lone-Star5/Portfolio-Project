@@ -8,6 +8,9 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const fs = require('fs'); 
 const path = require('path'); 
 const multer = require('multer')
+const nodemailer = require('nodemailer');
+require('dotenv').config()
+
 var filename=Date.now()+'.png';
 
 var username='admin';
@@ -71,6 +74,17 @@ User.findOne({username:username},function(err,user){
     }
 });
 
+// Creating a function to send mail
+var transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, 
+  service: 'gmail',
+  auth: {
+    user: process.env.userEmail,
+    pass: process.env.password
+  }
+});
 
 
 app.get('/', (req,res)=>{
@@ -261,8 +275,69 @@ app.post('/articles',upload.single('article[img]'), (req,res)=>{
 	// });
 })
 
+app.get('/resume', function (req, res) {
+	var filePath = "/public/resume.pdf";
+
+	fs.readFile(__dirname + filePath , function (err,data){
+			res.contentType("application/pdf");
+			res.send(data);
+	});
+});
 
 
+app.post('/contact',sendMail,  (req,res)=>{
+	res.redirect('/');
+	  
+})
+
+// MiddleWare for Contact
+function sendMail(req,res,next){
+	({name, email,message }= req.body);
+	let mailOptions = {
+		from: email,
+		to: 'sunitaportfolio20@gmail.com',
+		subject: 'From '+name,
+		text: `The message is sent by ${email} \n\n`+message
+	  };
+	transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+			mailOptions = {
+				from: 'Sunita',
+				to: email,
+				subject: 'Error',
+				text: 'Your message was not sent successfully'
+			  };
+			  transporter.sendMail(mailOptions, function(erro,info){
+				  if(error){
+					  res.json({message:"Some Error Occured"})
+				  }
+				  else{
+					res.redirect("back")
+				  }
+			  })
+		} else {
+			mailOptions = {
+				from: 'Sunita',
+				to: email,
+				subject: 'Success',
+				text: 'Your message was sent successfully'
+			  };
+			  transporter.sendMail(mailOptions, function(erro,info){
+				  if(error){
+					  res.json({message:"Your message is sent successfully"})
+				  }
+				  else{
+					next();
+				  }
+			  })
+		}
+	});
+	  
+}
+
+app.get('/socialMedia', (req,res)=>{
+	res.render('social_media')
+})
 
 app.listen(8000, (err)=>{
 	if(err)
