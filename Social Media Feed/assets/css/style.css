@@ -67,6 +67,10 @@ h6 {
 	background: #040b14;
 	overflow-y: auto;
 }
+#article-title{
+	color:green;
+	text-align: center;
+}
 
 #header .profile img {
 	margin: 15px auto;
