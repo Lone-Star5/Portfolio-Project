@@ -58,9 +58,12 @@
     <section class="lightbox">
       <div class="row">
         <% articles.forEach(function(article){ %>
-          <a href="/uploads/<%=article._id%>.png" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+          <div class = "col-md-4">
+            <a href="/uploads/<%=article._id%>.png" data-toggle="lightbox" data-gallery="gallery">
               <img src="/uploads/<%=article._id%>.png" class="img-fluid rounded">
-          </a> 
+            </a> 
+            <h3 class = "article-title"><%= article.title %></h3>
+          </div>
         <% }); %>
       </div>
 
